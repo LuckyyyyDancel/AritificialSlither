@@ -1,3 +1,7 @@
+document.getElementById("start-game-button").addEventListener("click", function () {
+    document.querySelector("form").submit();
+});
+
 
 document.addEventListener("DOMContentLoaded", function () {
     const startGameButton = document.getElementById("start-game-button");

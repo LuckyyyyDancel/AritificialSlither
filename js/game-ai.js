@@ -1,6 +1,8 @@
+/** AI SNAKE CODE */
+
 const playBoard = document.getElementById("play-board-ai");
-const scoreElement = document.querySelector(".score");
-const highScoreElement = document.querySelector(".high-score");
+const aiScoreElement = document.querySelector(".ai-score");
+const aiHighScoreElement = document.querySelector(".ai-high-score");
 const controls = document.querySelectorAll(".controls i");
 
 
@@ -10,10 +12,11 @@ let snakeX = 5, snakeY = 5;
 let velocityX = 0, velocityY = 0;
 let snakeBody = [];
 let setIntervalId;
+let aiScore = 0
 
 // Getting high score from the local storage
-let highScore = parseInt(localStorage.getItem("high-score")) || 0;
-highScoreElement.innerText = `High Score: ${highScore}`;
+let aiHighScore = parseInt(localStorage.getItem("ai-high-score")) || 0;
+aiHighScoreElement.innerText = `High Score: ${aiHighScore}`;
 
 const updateFoodPosition = () => {
     // Passing a random 1 - 30 value as food position
@@ -24,22 +27,29 @@ const updateFoodPosition = () => {
 const handleGameOver = () => {
     // Clearing the timer and reloading the page on game over
     clearInterval(setIntervalId);
-    alert("Game Over! Press OK to replay...");
+    alert("Game Over! You Won! Press OK to replay...");
     location.reload();
 }
 
+let aiMovementStarted = false;
+
 const changeDirection = e => {
     // Changing velocity value based on key press
-    if (e.key === "ArrowUp" && velocityY != 1) {
+    if (!aiMovementStarted) {
+        aiMovementStarted = true;
+        setIntervalId = setInterval(initGame, 100);
+    }
+
+    if (e.key === "ArrowUp" && velocityY !== 1) {
         velocityX = 0;
         velocityY = -1;
-    } else if (e.key === "ArrowDown" && velocityY != -1) {
+    } else if (e.key === "ArrowDown" && velocityY !== -1) {
         velocityX = 0;
         velocityY = 1;
-    } else if (e.key === "ArrowLeft" && velocityX != 1) {
+    } else if (e.key === "ArrowLeft" && velocityX !== 1) {
         velocityX = -1;
         velocityY = 0;
-    } else if (e.key === "ArrowRight" && velocityX != -1) {
+    } else if (e.key === "ArrowRight" && velocityX !== -1) {
         velocityX = 1;
         velocityY = 0;
     }
@@ -47,6 +57,7 @@ const changeDirection = e => {
 
 // Calling changeDirection on each key click and passing key dataset value as an object
 controls.forEach(button => button.addEventListener("click", () => changeDirection({ key: button.dataset.key })));
+
 
 const initGame = () => {
     if (gameOver) return handleGameOver();
@@ -57,11 +68,11 @@ const initGame = () => {
     if (snakeX === foodX && snakeY === foodY) {
         updateFoodPosition();
         snakeBody.push([foodY, foodX]);
-        score++;
-        highScore = score >= highScore ? score : highScore;
-        localStorage.setItem("high-score", highScore);
-        scoreElement.innerText = `Score: ${score}`;
-        highScoreElement.innerText = `High Score: ${highScore}`;
+        aiScore++;
+        aiHighScore = aiScore >= aiHighScore ? aiScore : aiHighScore;
+        localStorage.setItem("ai-high-score", aiHighScore); // Use "ai-high-score" as the key
+        aiScoreElement.innerText = `Score: ${aiScore}`;
+        aiHighScoreElement.innerText = `High Score: ${aiHighScore}`;
     }
 
     // Updating the snake's head position based on the current velocity
@@ -111,13 +122,10 @@ const aiMove = () => {
         velocityY = -1;
     }
 }
-setIntervalId = setInterval(initGame, 100);
 
 updateFoodPosition();
-scoreElement.innerText = `Score: ${score}`;
-highScoreElement.innerText = `High Score: ${highScore}`;
-setIntervalId = setInterval(initGame, 100);
-
+aiScoreElement.innerText = `Score: ${aiScore}`;
+aiHighScoreElement.innerText = `High Score: ${aiHighScore}`;
 document.addEventListener("keyup", changeDirection);
 
 // Function to change the player's name
@@ -130,6 +138,5 @@ const changeName = () => {
     }
 }
 
-// Attach the changeName function to a button or event
-const changeNameButton = document.getElementById("change-name-button");
-changeNameButton.addEventListener("click", changeName);
+
+
