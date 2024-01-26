@@ -176,4 +176,10 @@ body {
     text-align: center;
 }
 
+.obstacle {
+    background-color: #45a049;
+    border: 1px #fff solid;
+    /* Adjust as needed */
+}
+
 /* Add more styling for the snake and control elements as needed */

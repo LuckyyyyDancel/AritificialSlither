@@ -5,18 +5,18 @@ const aiScoreElement = document.querySelector(".ai-score");
 const aiHighScoreElement = document.querySelector(".ai-high-score");
 const controls = document.querySelectorAll(".controls i");
 
-
 let gameOver = false;
 let foodX, foodY;
 let snakeX = 5, snakeY = 5;
 let velocityX = 0, velocityY = 0;
 let snakeBody = [];
 let setIntervalId;
-let aiScore = 0
-
-// Getting high score from the local storage
+let aiScore = 0;
 let aiHighScore = parseInt(localStorage.getItem("ai-high-score")) || 0;
 aiHighScoreElement.innerText = `High Score: ${aiHighScore}`;
+
+// Increase the speed of the AI snake
+const AI_SPEED = 80; // Lower value means faster speed
 
 const updateFoodPosition = () => {
     // Passing a random 1 - 30 value as food position
@@ -34,6 +34,11 @@ const handleGameOver = () => {
 let aiMovementStarted = false;
 
 const changeDirection = e => {
+    // Check if AI movement has started
+    if (aiMovementStarted) {
+        return; // Exit the function, do not change direction
+    }
+
     // Changing velocity value based on key press
     if (!aiMovementStarted) {
         aiMovementStarted = true;
@@ -57,7 +62,6 @@ const changeDirection = e => {
 
 // Calling changeDirection on each key click and passing key dataset value as an object
 controls.forEach(button => button.addEventListener("click", () => changeDirection({ key: button.dataset.key })));
-
 
 const initGame = () => {
     if (gameOver) return handleGameOver();
@@ -106,8 +110,8 @@ const initGame = () => {
 
 // AI-controlled snake movement function
 const aiMove = () => {
-    // Implement your AI algorithm here
-    // For simplicity, you can use a basic algorithm like moving towards the food
+    // Implement an advanced AI algorithm here
+    // For now, let's keep it simple and move towards the food's coordinates
     if (foodX > snakeX) {
         velocityX = 1;
         velocityY = 0;
@@ -127,16 +131,3 @@ updateFoodPosition();
 aiScoreElement.innerText = `Score: ${aiScore}`;
 aiHighScoreElement.innerText = `High Score: ${aiHighScore}`;
 document.addEventListener("keyup", changeDirection);
-
-// Function to change the player's name
-const changeName = () => {
-    const newName = prompt("Enter your name:");
-    if (newName) {
-        playerName = newName;
-        localStorage.setItem("playerName", playerName);
-        userNameText.textContent = playerName;
-    }
-}
-
-
-

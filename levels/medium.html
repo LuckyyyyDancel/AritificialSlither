@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,600;0,800;1,300;1,400&family=Quicksand:wght@300;400;500;600;700&family=Rajdhani:wght@700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="game.css">
+    <title>Slitherine AI | Play Now</title>
+</head>
+
+<body>
+    <div class="game-container">
+        <div class="user-side" id="user-side">
+            <h2 id="user-name-text">User Side</h2>
+            <div class="game-details">
+                <span class="score">Score: 0</span>
+                <span class="high-score">High Score: 0</span>
+            </div>
+            <div class="play-board"></div>
+        </div>
+
+        <div class="opponent-side" id="opponent-side">
+            <h2 id="ai-name-text">Opponent Side [Medium]</h2>
+            <div class="game-details">
+                <span class="ai-score">Score: 0</span>
+                <span class="ai-high-score">High Score: 0</span>
+            </div>
+            <div class="play-board-ai" id="play-board-ai"></div>
+        </div>
+    </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const playerName = new URLSearchParams(window.location.search).get("playerName");
+            if (playerName) {
+                document.getElementById("user-side-title").textContent = `${playerName}'s Side`;
+            }
+        });
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const aiDifficulty = new URLSearchParams(window.location.search).get("aiDifficulty");
+            if (aiDifficulty) {
+                document.getElementById("ai-side-title").textContent = `${aiDifficulty}'s Side`;
+            }
+        });
+    </script>
+    <script src="js/medium/game.js" defer></script>
+    <script src="js/medium/game-ai.js" defer></script>
+</body>
+
+</html>

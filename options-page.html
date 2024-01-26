@@ -22,16 +22,45 @@
             <h2>Select AI Difficulty</h2>
             <select name="ai-difficulty" id="ai-difficulty">
                 <option value="" disabled selected>Select...</option>
-                <option value="easy">Easy</option>
-                <option value="medium">Medium</option>
-                <option value="hard">Hard</option>
-                <option value="difficult">Difficult</option>
-                <option value="expert">Expert</option>
+                <option href="levels/easy.html" value="easy">Easy</option>
+                <option href="levels/medium.html" value="medium">Medium</option>
+                <option href="levels/hard.html" value="hard">Hard</option>
+                <option href="levels/difficult.html" value="difficult">Difficult</option>
+                <option href="levels/expert.html" value="expert">Expert</option>
             </select>
             <button id="start-game-button">Start Game</button>
             </form>
         </div>
     </div>
+    <script>
+        document.getElementById("save-options").addEventListener("click", function () {
+            var playerName = document.getElementById("player-name").value.trim();
+            localStorage.setItem("playerName", playerName);
+            alert("Options saved successfully!");
+        });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Retrieve player name from local storage
+            const storedPlayerName = localStorage.getItem("playerName");
+
+            // Retrieve high score from local storage
+            let highScore = parseInt(localStorage.getItem("highScore")) || 0;
+
+            // Retrieve current player name
+            const currentPlayerName = document.getElementById("user-name-text").textContent;
+
+            // Compare stored player name with current player name
+            if (storedPlayerName && storedPlayerName !== currentPlayerName) {
+                // Reset high score to zero if player name has changed
+                highScore = 0;
+                localStorage.setItem("highScore", highScore);
+            }
+
+            // Update UI with high score
+            document.querySelector(".high-score").textContent = `High Score: ${highScore}`;
+        });
+    </script>
     <script src="js/options.js">
     </script>
 </body>

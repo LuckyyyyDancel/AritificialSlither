@@ -1,37 +1,29 @@
 document.getElementById("start-game-button").addEventListener("click", function () {
-    document.querySelector("form").submit();
+    var playerName = document.getElementById("player-name").value;
+    var selectedDifficulty = document.getElementById("ai-difficulty").value;
+
+    if (playerName.trim() === "") {
+        alert("Please enter your name!");
+        return;
+    }
+
+    if (selectedDifficulty === "") {
+        alert("Please select AI difficulty!");
+        return;
+    }
+
+    // Set player name and difficulty to local storage
+    localStorage.setItem("playerName", playerName);
+    localStorage.setItem("aiDifficulty", selectedDifficulty);
+
+    // Redirect to the selected difficulty level page
+    var selectedPage = "levels/" + selectedDifficulty + ".html";
+    window.location.href = selectedPage;
 });
 
-
-document.addEventListener("DOMContentLoaded", function () {
-    const startGameButton = document.getElementById("start-game-button");
-
-    startGameButton.addEventListener("click", () => {
-        const playerName = document.getElementById("player-name").value;
-        localStorage.setItem("playerName", playerName);
-        const aiDifficulty = document.getElementById("ai-difficulty").value;
-        localStorage.setItem("ai-difficulty", aiDifficulty);
-
-        if (playerName.trim() === "" || aiDifficulty === "") {
-            alert("Please enter a player name and select a difficulty.");
-            return;
-        }
-
-        // Make an asynchronous request to save_player.php
-        const xhr = new XMLHttpRequest();
-        xhr.open("POST", "save_player.php", true);
-        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState == 4 && xhr.status == 200) {
-                console.log(xhr.responseText); // Log the server response
-                // Redirect to the game page with the selected AI difficulty
-                window.location.href = `game-page.html?difficulty=${aiDifficulty}`;
-            }
-        };
-
-        // Send data to the server
-        xhr.send(`playerName=${playerName}&aiDifficulty=${aiDifficulty}`);
-
-        window.location.href = `game-page.html?difficulty=${aiDifficulty}`;
-    });
+document.getElementById("start-game").addEventListener("click", function () {
+    var playerName = document.getElementById("player-name").value.trim();
+    localStorage.setItem("playerName", playerName);
+    localStorage.setItem("highScore", 0); // Reset high score to zero
+    window.location.href = "levels/easy.html";
 });
